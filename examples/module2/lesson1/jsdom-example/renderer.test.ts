@@ -16,13 +16,41 @@ describe('User renderer', () => {
     const container = document.createElement('div');
     renderItems(container, users);
     expect(Array.from(container.querySelectorAll('li'))).toHaveLength(3);
+
+    expect(container.innerHTML).toMatch(`
+    <ul>
+      ${users
+        .map(
+          (user) =>
+            `<li>${user.role === 'admin' && '(Admin)'} Name: ${
+              user.name
+            }, Age: ${user.age}</li>`
+        )
+        .join('')}
+    </ul>`);
   });
 
   test('should render only regular users if non-admin is rendering the list', () => {
     localStorage.setItem('userRole', 'user');
 
+    const allowedUsers = users.filter((user) => user.role === 'user');
+
     const container = document.createElement('div');
     renderItems(container, users);
-    expect(Array.from(container.querySelectorAll('li'))).toHaveLength(2);
+    expect(Array.from(container.querySelectorAll('li'))).toHaveLength(
+      allowedUsers.length
+    );
+
+    expect(container.innerHTML).toMatch(`
+    <ul>
+      ${allowedUsers
+        .map(
+          (user) =>
+            `<li>${user.role === 'admin' && '(Admin)'} Name: ${
+              user.name
+            }, Age: ${user.age}</li>`
+        )
+        .join('')}
+    </ul>`);
   });
 });

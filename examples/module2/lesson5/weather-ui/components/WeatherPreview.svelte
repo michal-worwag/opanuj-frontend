@@ -7,6 +7,7 @@
   }
 
   let { weather }: Props = $props();
+  console.log('WeatherPreview', weather);
 </script>
 
 <div>

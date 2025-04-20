@@ -11,6 +11,7 @@
       const result = await fetchWeather(locationQuery);
       if (result) {
         weather = result;
+        console.log('Weather data:', weather);
       }
     } catch {
       console.error(`Failed to fetch weather for ${locationQuery}`);
